@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Runner": {
+      "commandName": "Project",
+      "commandLineArgs": "--find c:\\dayforce\\tip2\\DataSvc.sln"
+    }
+  }
+}
