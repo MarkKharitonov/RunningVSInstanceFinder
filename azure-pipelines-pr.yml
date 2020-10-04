@@ -1,10 +1,6 @@
-# NuGet-DontNet-Tool application
+# NuGet-DontNet-Lib application
 
 trigger: none
-
-variables:
-  projectDir: src\VSInstanceFinder
-  binDir: bin\Release\net472
 
 name: 0.0.$(Date:yy)$(DayOfYear)$(Rev:.r)
 
@@ -26,11 +22,4 @@ jobs:
   - template: ci/variables.yml@templates
 
   steps:
-  - template: ci/build-and-test.yml@templates
-    parameters:
-      withCoverage: false
-
-  - template: ci/nuget-pack-as-tool.yml@templates
-    parameters:
-      projectDir: $(projectDir)
-      binDir: $(binDir)
+  - template: build-solutions.yml

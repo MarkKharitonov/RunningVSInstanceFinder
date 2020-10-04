@@ -1,0 +1,19 @@
+parameters:
+  buildConfiguration: Release
+
+steps:
+- template: ci/build-and-test.yml@templates
+  parameters:
+    withCoverage: false
+    buildConfiguration: ${{ parameters.buildConfiguration }}
+
+- template: ci/nuget-pack.yml@templates
+  parameters:
+    buildProperties: PackageId=RunningVSInstanceFinderLib
+    buildConfiguration: ${{ parameters.buildConfiguration }}
+
+- template: ci/nuget-pack-as-tool.yml@templates
+  parameters:
+    projectDir: RunningVSInstanceFinder
+    binDir: bin\${{ parameters.BuildConfiguration }}\net472
+    buildConfiguration: ${{ parameters.buildConfiguration }}

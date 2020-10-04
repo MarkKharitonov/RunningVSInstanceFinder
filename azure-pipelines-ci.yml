@@ -1,12 +1,8 @@
-# NuGet-DontNet-Tool application
+# NuGet-DontNet-Lib application
 
 trigger:
 - master
 - hotfix/*
-
-variables:
-  projectDir: src\VSInstanceFinder
-  binDir: bin\Release\net472
 
 name: 1.0.$(Date:yy)$(DayOfYear)$(Rev:.r)
 
@@ -30,16 +26,9 @@ jobs:
   steps:
   - template: ci/set-branch-build-number.yml@templates
 
-  - template: ci/build-and-test.yml@templates
-    parameters:
-      withCoverage: false
+  - template: build-solutions.yml
 
   - template: ci/symbols-publish.yml@templates
-
-  - template: ci/nuget-pack-as-tool.yml@templates
-    parameters:
-      projectDir: $(projectDir)
-      binDir: $(binDir)
 
   - template: ci/nuget-push.yml@templates
 

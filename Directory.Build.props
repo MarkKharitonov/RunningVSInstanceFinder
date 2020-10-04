@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
-    <Product>VSInstanceFinder</Product>
-    <AssemblyTitle>VSInstanceFinder</AssemblyTitle>
+    <Product>RunningVSInstanceFinder</Product>
+    <AssemblyTitle>$(Product)</AssemblyTitle>
     <Description>Find a running instance of Visual Studio where the given solution is open.</Description>
     <Team>Release Engineering</Team>
   </PropertyGroup>

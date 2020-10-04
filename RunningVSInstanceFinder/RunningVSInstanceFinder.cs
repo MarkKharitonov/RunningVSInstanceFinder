@@ -3,16 +3,10 @@ using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace VSInstanceFinder2
+namespace Ceridian
 {
-    public static class Program
+    public static class RunningVSInstanceFinder
     {
-        // Fields
-        private const int MAX_SELECTION_SIZE = 0x98_9680;
-
-        // Methods
-        [DllImport("ole32.dll")]
-        public static extern int CreateBindCtx(int reserved, out IBindCtx ppbc);
         public static DTE2 Find(string solutionFilePath)
         {
             IntPtr pceltFetched = new IntPtr();
@@ -22,7 +16,7 @@ namespace VSInstanceFinder2
             moniker.Reset();
             while (moniker.Next(1, rgelt, pceltFetched) == 0)
             {
-                CreateBindCtx(0, out IBindCtx ctx);
+                CreateBindCtx(0, out _);
                 table.GetObject(rgelt[0], out object obj2);
                 var dte = obj2 as DTE2;
                 try
@@ -55,6 +49,9 @@ namespace VSInstanceFinder2
         }
 
         [DllImport("ole32.dll")]
-        public static extern int GetRunningObjectTable(int reserved, out IRunningObjectTable prot);
+        private static extern int CreateBindCtx(int reserved, out IBindCtx ppbc);
+
+        [DllImport("ole32.dll")]
+        private static extern int GetRunningObjectTable(int reserved, out IRunningObjectTable prot);
     }
 }
