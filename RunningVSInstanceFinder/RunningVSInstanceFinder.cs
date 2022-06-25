@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 
 namespace Ceridian
 {
@@ -59,8 +60,8 @@ namespace Ceridian
             var dte = (DTE2)dteObject;
             if (dte != null)
             {
-                dte.Application.ExecuteCommand("View.ErrorList", " ");
-                var errors = dte.ToolWindows.ErrorList.ErrorItems;
+                RunActionWithRetries(() => dte.Application.ExecuteCommand("View.ErrorList", " "));
+                var errors = RunActionWithRetries(() => dte.ToolWindows.ErrorList.ErrorItems);
                 if (errors.Count > 0)
                 {
                     var res = new ErrorItem[errors.Count];
@@ -80,23 +81,53 @@ namespace Ceridian
             var dte = (DTE2)dteObject;
             if (dte != null)
             {
-                dte.Application.ExecuteCommand("View.Output", " ");
-                var outputWindow = dte.ToolWindows.OutputWindow;
-                var outputWindowPanes = outputWindow.OutputWindowPanes;
+                RunActionWithRetries(() => dte.Application.ExecuteCommand("View.Output", " "));
+                var outputWindow = RunActionWithRetries(() => dte.ToolWindows.OutputWindow);
+                var outputWindowPanes = RunActionWithRetries(() => outputWindow.OutputWindowPanes);
                 for (var i = 1; i <= outputWindowPanes.Count; ++i)
                 {
                     var curOutputWindowPane = outputWindowPanes.Item(i);
                     if (curOutputWindowPane.Name == toolName)
                     {
-                        curOutputWindowPane.Activate();
-                        var sel = curOutputWindowPane.TextDocument.Selection;
-                        sel.StartOfDocument(false);
-                        sel.EndOfDocument(true);
-                        return sel.Text;
+                        RunActionWithRetries(() => curOutputWindowPane.Activate());
+                        var sel = RunActionWithRetries(() => curOutputWindowPane.TextDocument.Selection);
+                        RunActionWithRetries(() => sel.StartOfDocument(false));
+                        RunActionWithRetries(() => sel.EndOfDocument(true));
+                        return RunActionWithRetries(() => sel.Text);
                     }
                 }
             }
             return null;
+        }
+
+        private static void RunActionWithRetries(Action action, int retryCount = 20, int delayMS = 100)
+        {
+            RunActionWithRetries<object>(() =>
+            {
+                action();
+                return null;
+            }, retryCount, delayMS);
+        }
+
+        private static T RunActionWithRetries<T>(Func<T> action, int retryCount = 5, int delayMS = 100)
+        {
+            for (; ; )
+            {
+                try
+                {
+                    return action();
+                }
+                catch
+                {
+                    if (retryCount == 0)
+                    {
+                        throw;
+                    }
+
+                    --retryCount;
+                    Thread.Sleep(delayMS);
+                }
+            }
         }
 
         private static IEnumerable<FindResult> EnumerateEnvDTE()

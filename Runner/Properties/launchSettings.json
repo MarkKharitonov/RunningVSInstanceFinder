@@ -2,7 +2,7 @@
   "profiles": {
     "Runner": {
       "commandName": "Project",
-      "commandLineArgs": "--find c:\\dayforce\\tip2\\DataSvc.sln"
+      "commandLineArgs": "--find c:\\dayforce\\tip2\\build\\Deployer.sln --getBuildOutput"
     }
   }
 }

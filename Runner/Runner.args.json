@@ -3,6 +3,10 @@
   "Id": "c13dd8e1-4f6f-4568-87ee-3d60ac2c6a42",
   "Items": [
     {
+      "Id": "4dd66bff-75f5-4924-9f58-1e572b45848a",
+      "Command": "--find c:\\dayforce\\tip2\\build\\Deployer.sln --getErrorList"
+    },
+    {
       "Id": "e49e43c3-b567-4cc5-a616-9f0fd8a51e24",
       "Command": "--find c:\\dayforce\\tip2\\DataSvc.sln"
     },
@@ -16,7 +20,7 @@
     },
     {
       "Id": "2ea0ea2f-e773-40a4-b0ed-669834ea26de",
-      "Command": "--find c:\\dayforce\\tip2\\build\\Deployer.sln"
+      "Command": "--find c:\\dayforce\\tip2\\build\\Deployer.sln --getBuildOutput"
     }
   ]
 }

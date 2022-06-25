@@ -4,9 +4,9 @@
     {
         public enum BuildErrorLevel
         {
-            Low = 1,
-            Medium = 2,
-            High = 4
+            Information = 1,
+            Warning = 2,
+            Error = 4
         }
     }
 }

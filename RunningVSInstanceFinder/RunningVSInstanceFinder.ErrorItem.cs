@@ -20,6 +20,8 @@
             public int Line { get; set; }
             public int Column { get; set; }
             public string Project { get; set; }
+
+            public override string ToString() => $"{FileName}({Line},{Column}): {ErrorLevel} : {Description} [{Project}]";
         }
     }
 }
