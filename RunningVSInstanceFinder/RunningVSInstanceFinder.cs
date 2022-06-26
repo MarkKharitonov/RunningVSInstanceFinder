@@ -34,7 +34,7 @@ namespace Ceridian
                 return null;
             }
 
-            var res = new Dictionary<string, List<FindResult>>();
+            var res = new Dictionary<string, List<FindResult>>(StringComparer.InvariantCultureIgnoreCase);
             var messages = new HashSet<string>();
             foreach (var item in EnumerateEnvDTE())
             {
@@ -42,7 +42,7 @@ namespace Ceridian
                 {
                     messages.Add(item.ErrorMessage);
                 }
-                else if (item.SolutionFullName != null && solutionFilePaths.Any(s => string.Equals(s, item.SolutionFullName, StringComparison.OrdinalIgnoreCase)))
+                else if (item.SolutionFullName != null && solutionFilePaths.Any(s => string.Equals(s, item.SolutionFullName, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     if (!res.TryGetValue(item.SolutionFullName, out var instances))
                     {

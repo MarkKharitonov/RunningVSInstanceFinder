@@ -3,6 +3,10 @@
   "Id": "c13dd8e1-4f6f-4568-87ee-3d60ac2c6a42",
   "Items": [
     {
+      "Id": "8df678dc-b142-4360-956e-27efeb80b071",
+      "Command": "--find C:\\Dayforce\\tip2\\build\\Deployer.sln --getBuildOutput"
+    },
+    {
       "Id": "4dd66bff-75f5-4924-9f58-1e572b45848a",
       "Command": "--find c:\\dayforce\\tip2\\build\\Deployer.sln --getErrorList"
     },
